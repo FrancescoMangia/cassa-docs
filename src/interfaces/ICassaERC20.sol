@@ -9,13 +9,13 @@ interface ICassaERC20 is IERC20 {
     /// @param to The address that will receive the minted tokens
     /// @param amount The amount of tokens to mint
     function mint(address to, uint256 amount) external;
-    
+
     /// @notice Burns tokens from a specified address
     /// @dev Only callable by the parent `ICassaITUT` contract
     /// @param from The address from which tokens will be burned
     /// @param amount The amount of tokens to burn
     function burn(address from, uint256 amount) external;
-    
+
     /// @notice Spends allowance from an owner on behalf of a spender
     /// @dev Only callable by the parent `ICassaITUT` contract
     /// @param owner The address of the token owner
