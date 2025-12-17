@@ -31,6 +31,12 @@ interface ICassaITUT {
     /// @param receiver The address to check deposit limits for
     /// @return max The maximum deposit amount
     function maxDeposit(address receiver) external view returns (uint256 max);
+
+    /// @notice Returns the maximum amount of IT/UT pairs that can be deposited from a whitelisted `ICassaITUT` contract
+    /// @param pair The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
+    /// @param receiver The address to check deposit limits for
+    /// @return max The maximum deposit amount in IT/UT pairs
+    function maxDepositITUT(address pair, address receiver) external view returns (uint256 max);
     
     /// @notice Returns the maximum amount of tokens that can be redeemed by an owner
     /// @param owner The address of the token owner
@@ -46,12 +52,46 @@ interface ICassaITUT {
     /// @param owner The address of the UT token owner
     /// @return max The maximum redeemable UT token amount
     function maxRedeemUT(address owner) external view returns (uint256 max);
+
+    /// @notice Previews the amount of IT and UT tokens that would be minted for a given asset deposit
+    /// @param assets The amount of assets to simulate depositing
+    /// @return tokens The total amount of token pairs that would be minted
+    function previewDeposit(uint256 assets) external view returns (uint256 tokens);
+    
+    /// @notice Previews the amount of IT and UT tokens that would be minted for depositing IT/UT pairs from a whitelisted `ICassaITUT` contract
+    /// @param pair The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
+    /// @param amount The amount of IT/UT pairs to simulate depositing
+    /// @return tokens The total amount of token pairs that would be minted
+    function previewDepositITUT(address pair, uint256 amount) external view returns (uint256 tokens);
+    
+    /// @notice Previews the amount of assets that would be returned for redeeming a given amount of tokens
+    /// @param tokens The amount of tokens to simulate redeeming
+    /// @return assets The amount of assets that would be returned
+    function previewRedeem(uint256 tokens) external view returns (uint256 assets);
+    
+    /// @notice Previews the amount of assets that would be returned for redeeming IT tokens
+    /// @param tokens The amount of IT tokens to simulate redeeming
+    /// @return assets The amount of assets that would be returned
+    function previewRedeemIT(uint256 tokens) external view returns (uint256 assets);
+    
+    /// @notice Previews the amount of assets that would be returned for redeeming UT tokens
+    /// @param tokens The amount of UT tokens to simulate redeeming
+    /// @return assets The amount of assets that would be returned
+    function previewRedeemUT(uint256 tokens) external view returns (uint256 assets);
     
     /// @notice Deposits assets and mints IT and UT tokens to a receiver
     /// @param assets The amount of assets to deposit
     /// @param receiver The address that will receive the minted tokens
-    /// @return tokens The total amount of tokens minted
+    /// @return tokens The total amount of token pairs minted
     function deposit(uint256 assets, address receiver) external returns (uint256 tokens);
+
+    /// @notice Deposits IT/UT pairs from a whitelisted `ICassaITUT` contract and mints new IT and UT tokens
+    /// @dev The deposited IT/UT pairs must be backed by the same underlying asset
+    /// @param pair The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
+    /// @param amount The amount of IT/UT pairs to deposit
+    /// @param receiver The address that will receive the minted tokens
+    /// @return tokens The total amount of token pairs minted
+    function depositITUT(address pair, uint256 amount, address receiver) external returns (uint256 tokens);
     
     /// @notice Redeems tokens and returns assets to a receiver
     /// @param tokens The amount of tokens to redeem
