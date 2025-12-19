@@ -47,9 +47,7 @@ interface ICassaAMM {
     /// @param amountIn The amount of tokenIn to swap
     /// @param minAmountOut The minimum amount of tokenOut to accept
     /// @return out The actual amount of tokenOut received
-    function swap(Token tokenIn, Token tokenOut, uint256 amountIn, uint256 minAmountOut)
-        external
-        returns (uint256 out);
+    function swap(Token tokenIn, Token tokenOut, uint256 amountIn, uint256 minAmountOut) external returns (uint256 out);
 
     /// @notice Adds liquidity to the pool
     /// @param amountsIn The amounts of tokens to add [ASSET, UNDERLYING, INSURED]
