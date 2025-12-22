@@ -1,0 +1,27 @@
+# Git (keep .git and .gitmodules for submodule initialization)
+# .git
+# .gitmodules
+.gitignore
+.github
+
+# Build artifacts
+out/
+cache/
+broadcast/
+
+# Docs (will be generated during build)
+docs/book/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other
+README.md
+Makefile
+DEPLOYMENT.md
+RAILWAY.md
