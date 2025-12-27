@@ -5,6 +5,8 @@ import {IERC20} from "./IERC20.sol";
 import {ICassaERC20} from "./ICassaERC20.sol";
 import {ICassaPolicy} from "./ICassaPolicy.sol";
 
+/// @title Cassa ITUT Interface
+/// @notice Interface for the Insured Token (IT) and Underwriting Token (UT) pair vault.
 interface ICassaITUT {
     /// @notice Returns the IT (Insured Token) contract
     /// @return _it The ICassaERC20 contract for the IT token

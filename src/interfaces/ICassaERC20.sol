@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import {IERC20} from "./IERC20.sol";
 
 /// @title Cassa ERC20 Token Interface
-/// @notice Extended ERC20 interface for Cassa tokens with mint/burn capabilities
+/// @notice Extended ERC20 interface for Cassa tokens with mint/burn capabilities.
 interface ICassaERC20 is IERC20 {
     /// @notice Mints new tokens to a specified address
     /// @dev Only callable by the parent `ICassaITUT` contract

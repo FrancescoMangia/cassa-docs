@@ -3,6 +3,8 @@ pragma solidity ^0.8.13;
 
 import {ICassaITUT} from "./ICassaITUT.sol";
 
+/// @title Cassa AMM Interface
+/// @notice Automated Market Maker interface for swapping between asset, underlying, and insured tokens.
 interface ICassaAMM {
     /// @notice Token types used in the AMM
     enum Token {

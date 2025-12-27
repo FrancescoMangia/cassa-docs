@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+/// @title Cassa Policy Interface
+/// @notice Interface for insurance policy contracts.
 interface ICassaPolicy {
     /// @notice Returns the effective date of the policy
     /// @return timestamp The timestamp when the policy becomes effective
