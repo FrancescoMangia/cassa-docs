@@ -8,5 +8,6 @@ libs = ["lib"]
 out = "docs"
 title = "Cassa Documentation"
 repository = "https://github.com/FrancescoMangia/cassa-docs"
+include = ["src/interfaces"]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

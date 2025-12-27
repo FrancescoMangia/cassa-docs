@@ -3,13 +3,14 @@ pragma solidity ^0.8.13;
 
 import {ICassaITUT} from "./ICassaITUT.sol";
 
-enum Token {
-    ASSET,
-    UNDERLYING,
-    INSURED
-}
-
 interface ICassaAMM {
+    /// @notice Token types used in the AMM
+    enum Token {
+        ASSET,
+        UNDERLYING,
+        INSURED
+    }
+
     /// @notice Returns the IT/UT pair contract for this AMM
     /// @return _pair The ICassaITUT contract associated with this AMM
     function pair() external view returns (ICassaITUT _pair);
