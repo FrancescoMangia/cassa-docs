@@ -6,7 +6,7 @@ libs = ["lib"]
 # Docs configuration
 [profile.default.doc]
 out = "docs"
-title = "Cassa Documentation"
+title = "Cassa API Reference"
 repository = "https://github.com/FrancescoMangia/cassa-docs"
 include = ["src/interfaces"]
 
