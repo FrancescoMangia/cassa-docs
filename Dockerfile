@@ -9,11 +9,14 @@ RUN curl -L https://foundry.paradigm.xyz | bash && \
     bash -c "source ~/.bashrc && foundryup"
 ENV PATH="/root/.foundry/bin:${PATH}"
 
-# Install mdbook
-RUN cargo install mdbook
+# Install mdbook and mdbook-mermaid
+RUN cargo install mdbook mdbook-mermaid
 
 # Copy project files
 COPY . .
+
+# Install mermaid assets for mdbook
+RUN cd mdbook-src && mdbook-mermaid install .
 
 # Replace root README with interfaces README for forge doc homepage
 RUN rm -f README.md && cp src/interfaces/README.md README.md
