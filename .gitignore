@@ -9,6 +9,8 @@ out/
 
 # Docs
 docs/
+mdbook-src/book/
+mdbook-src/api/
 
 # Dotenv file
 .env

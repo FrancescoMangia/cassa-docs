@@ -1,0 +1,12 @@
+[book]
+title = "Cassa Documentation"
+authors = ["Cassa Team"]
+language = "en"
+src = "src"
+
+[build]
+build-dir = "book"
+
+[output.html]
+no-section-label = true
+git-repository-url = "https://github.com/FrancescoMangia/cassa-docs"

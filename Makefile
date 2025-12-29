@@ -7,7 +7,9 @@ format:
 	forge fmt
 
 docs:
-	forge doc
+# 	forge doc
+	docker build -t cassa-docs .
 
 docs-serve:
-	forge doc --watch --serve -p 3000
+# 	forge doc --watch --serve -p 3000
+	docker run -p 8080:80 cassa-docs
