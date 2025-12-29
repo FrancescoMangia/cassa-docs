@@ -1,6 +1,6 @@
 # Example: Yield Underperformance Policy
 
-In this example policy, Insurance Token holders are owed a claim after settlement proportional to a DeFi protocol's yield underperformance below a certain threshold throughout the duration of the policy.
+In this example policy, Insurance Token holders are owed a claim after settlement proportional to a DeFi protocol's yield underperformance beyond a certain threshold throughout the duration of the policy.
 - If the overall yield is at or over the threshold, the insurance payout is 0.
 - If the overall yield is 0%, the insurance payout is 100% of the assets underwriting the policy.
 - If the overall yield is greater than 0%, but under the threshold, the payout is `1 - yield / threshold`.
@@ -26,13 +26,41 @@ xychart-beta
 
 *Assuming a 10% yield threshold*
 
+## Policy Contract
+
+Assuming:
+- Yield is distributed in the form of the appreciation of a yield-bearing token
+- We can access the redemption price of the token at an arbitrary time with a function `priceAt(uint256 timestamp)  external view returns (uint256 price)`
+
+```solidity
+abstract contract Policy is ICassaPolicy {
+    uint256 public constant yieldThreshold = 1e17; // 10% (0.1 * 1e18)
+
+    function priceAt(uint256 timestamp) external view virtual returns (uint256 price);
+
+    function settlementRatio() external view returns (uint256 ratio, bool settled, bool ok) {
+        if (block.timestamp < expirationDate()) {
+            return (0, false, false);
+        }
+        uint256 policyPeriodYield = Math.max(1e18, Math.mulDiv(1e18, priceAt(expirationDate()), priceAt(effectiveDate()))) - 1e18;
+        ratio = 1e18 - Math.mulDiv(1e18, Math.min(yieldThreshold, policyPeriodYield), yieldThreshold);
+        return (ratio, true, true);
+    }
+}
+```
+
 ## Price Modeling
+
+Below are models for the expected fair market price of IT and UT as the policy period elapses and yield expectations fluctuate. Note these are expected free market prices, not prices enforced by the protocol.
+
+- 1 year policy duration.
+- Expectations of future yield fluctuate over time and are modeled as a single point estimate, not a probability distribution. Prices can be interpreted as the median (50th percentile) outcome, not accounting for variance or tail risk.
+- Effects of available liquidity are not accounted for.
+- Underwriters are assumed to require at least a 3% risk-adjusted annualized yield on their position to underwrite the policy, thus setting a price ceiling on UT at any given time regardless of performance or expectations.
 
 ### Scenario I
 
-- Yield exceeds threshold by end of policy
-- Expectations of future yield fluctuate over time
-- 1 year policy duration
+Yield exceeds threshold by end of policy, with expectations fluctuating over time.
 
 | Time (months) |  Realized APY |  Expected Future APY |  Cum. Realized APY |  Expected Realized APY at Expr. |  Fair UT Price |  Fair IT Price |
 |---------------|---------------|----------------------|--------------------|---------------------------------|----------------|----------------|
@@ -50,7 +78,30 @@ xychart-beta
 | T-1 |  10% |  10% |  9.13% |  10.00% |  0.9975 |  0.0025 |
 | T-0 |  10% |  10% |  10.00% |  10.00% |  1.0000 |  0.0000 |
 
-### Token Price Over Time
+#### Yield Expectations Over Time
+
+```mermaid
+---
+config:
+  xyChart:
+    width: 900
+    height: 500
+  themeVariables:
+    xyChart:
+      plotColorPalette: "#3b82f6, #10b981, #ef4444"
+---
+xychart-beta
+    title "Yield Performance vs Expectations"
+    x-axis "Time (months to expiration)" [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    y-axis "Yield (APY %)" 0 --> 16
+    line "Threshold" [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+    line "Expected at Expiration" [10, 10, 15, 15, 5, 8, 0, 0, 10, 10, 10, 10, 10]
+    line "Cumulative Realized" [0, 0.8, 1.6, 2.41, 3.23, 4.05, 4.88, 5.72, 6.56, 7.41, 8.27, 9.13, 10]
+```
+
+*Threshold (blue) is constant at 10%. Expected yield at expiration (green) fluctuates based on market sentiment. Cumulative realized yield (red) steadily increases. When expected yield drops below threshold (T-6 to T-7), IT prices spike as insurance becomes more valuable.*
+
+#### Token Price Over Time
 
 ```mermaid
 ---
