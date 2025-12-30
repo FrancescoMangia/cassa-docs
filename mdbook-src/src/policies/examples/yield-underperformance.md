@@ -122,5 +122,3 @@ xychart-beta
 ```
 
 *UT tokens (green) represent underwriter value, IT tokens (red) represent insurance value. Prices fluctuate based on expected yield outcomes.*
-
-
