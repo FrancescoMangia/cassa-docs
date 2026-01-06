@@ -3,7 +3,7 @@
 In this example policy, Insurance Token holders are owed a claim after settlement proportional to a DeFi protocol's yield underperformance beyond a certain threshold throughout the duration of the policy.
 - If the overall yield is at or over the threshold, the insurance payout is 0.
 - If the overall yield is 0%, the insurance payout is 100% of the assets underwriting the policy.
-- If the overall yield is greater than 0%, but under the threshold, the payout is `1 - yield / threshold`.
+- If the overall yield is greater than 0%, but under the threshold, the insurance payout is `1 - yield / threshold`.
 
 ## Payout Ratio
 
@@ -39,12 +39,12 @@ abstract contract Policy is ICassaPolicy {
     function priceAt(uint256 timestamp) external view virtual returns (uint256 price);
 
     function settlementRatio() external view returns (uint256 ratio, bool settled, bool ok) {
-        if (block.timestamp < expirationDate()) {
-            return (0, false, false);
-        }
-        uint256 policyPeriodYield = Math.max(1e18, Math.mulDiv(1e18, priceAt(expirationDate()), priceAt(effectiveDate()))) - 1e18;
+        uint256 start = effectiveDate();
+        uint256 end = Math.min(block.timestamp, expirationDate());
+        uint256 policyPeriodYield = Math.max(1e18, Math.mulDiv(1e18, priceAt(end), priceAt(start))) - 1e18;
         ratio = 1e18 - Math.mulDiv(1e18, Math.min(yieldThreshold, policyPeriodYield), yieldThreshold);
-        return (ratio, true, true);
+        settled = end == expirationDate();
+        return (ratio, settled, true);
     }
 }
 ```
