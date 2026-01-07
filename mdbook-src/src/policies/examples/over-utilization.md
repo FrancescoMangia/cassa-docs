@@ -18,10 +18,10 @@ config:
       plotColorPalette: "#4287f5"
 ---
 xychart-beta
-    title "Insurance Payout vs Mean Utilization"
-    x-axis "Mean Utilization (%)" [50, 60, 70, 80, 90, 100]
+    title "Insurance Payout vs Mean Overutilization"
+    x-axis "Mean Overutilization (%)" [0, 2, 4, 6, 8, 10]
     y-axis "Insurance Payout (%)" 0 --> 100
-    line [0, 0, 0, 0, 0, 100]
+    line [0, 20, 40, 60, 80, 100]
 ```
 
 *Assuming a 90% utilization target*
