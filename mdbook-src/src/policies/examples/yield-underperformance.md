@@ -99,7 +99,7 @@ xychart-beta
     line "Cumulative Realized" [0, 0.8, 1.6, 2.41, 3.23, 4.05, 4.88, 5.72, 6.56, 7.41, 8.27, 9.13, 10]
 ```
 
-*Threshold (blue) is constant at 10%. Expected yield at expiration (green) fluctuates based on market sentiment. Cumulative realized yield (red) steadily increases. When expected yield drops below threshold (T-6 to T-7), IT prices spike as insurance becomes more valuable.*
+*Threshold (blue) is constant at 10%. Expected yield at expiration (green) fluctuates based on market sentiment. Cumulative realized yield (red) steadily increases. When expected yield drops below threshold, IT prices spike as insurance becomes more valuable.*
 
 #### Token Price Over Time
 
