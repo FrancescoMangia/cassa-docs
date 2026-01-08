@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {IERC20} from "./IERC20.sol";
 import {ICassaERC20} from "./ICassaERC20.sol";
 import {ICassaPolicy} from "./ICassaPolicy.sol";
 
@@ -17,8 +16,8 @@ interface ICassaITUT {
     function UT() external view returns (ICassaERC20 _ut);
 
     /// @notice Returns the underlying asset token
-    /// @return _asset The IERC20 contract for the underlying asset
-    function asset() external view returns (IERC20 _asset);
+    /// @return _asset The address for the underlying asset
+    function asset() external view returns (address _asset);
 
     /// @notice Returns the policy contract
     /// @return _policy The ICassaPolicy contract governing this ITUT
