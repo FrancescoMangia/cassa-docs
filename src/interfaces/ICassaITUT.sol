@@ -117,4 +117,9 @@ interface ICassaITUT {
 
     /// @notice Settles the policy and fixes the settlement ratio
     function settle() external;
+
+    /// @notice Returns the settlement ratio and whether the policy has been settled
+    /// @return ratio The settlement ratio value scaled by 1e18 (1e18 = 100%)
+    /// @return settled Whether the policy has been settled
+    function settlementRatio() external view returns (uint256 ratio, bool settled);
 }
