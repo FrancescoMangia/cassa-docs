@@ -13,9 +13,9 @@ interface ICassaAMM {
         INSURED
     }
 
-    /// @notice Returns the IT/UT pair contract for this AMM
-    /// @return _pair The ICassaITUT contract associated with this AMM
-    function pair() external view returns (ICassaITUT _pair);
+    /// @notice Returns the IT/UT vault contract for this AMM
+    /// @return _vault The ICassaITUT contract associated with this AMM
+    function vault() external view returns (ICassaITUT _vault);
 
     /// @notice Returns the swap fee in parts per million
     /// @return _feePpm The swap fee in parts per million (1e6 = 100%)
