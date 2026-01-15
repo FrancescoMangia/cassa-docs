@@ -14,7 +14,7 @@ interface ICassaPolicy {
 
     /// @notice Returns the settlement ratio and settlement status of the policy
     /// @return ratio The settlement ratio value scaled by 1e18 (1e18 = 100%)
-    /// @return settled Whether the policy has been settled
+    /// @return isSettled Whether the policy has been settled
     /// @return ok Whether the settlement calculation was successful
-    function settlementRatio() external view returns (uint256 ratio, bool settled, bool ok);
+    function settlementRatio() external view returns (uint256 ratio, bool isSettled, bool ok);
 }

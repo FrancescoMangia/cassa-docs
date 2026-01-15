@@ -38,13 +38,13 @@ abstract contract Policy is ICassaPolicy {
 
     function priceAt(uint256 timestamp) external view virtual returns (uint256 price);
 
-    function settlementRatio() external view returns (uint256 ratio, bool settled, bool ok) {
+    function settlementRatio() external view returns (uint256 ratio, bool isSettled, bool ok) {
         uint256 start = effectiveDate();
         uint256 end = Math.min(block.timestamp, expirationDate());
         uint256 policyPeriodYield = Math.max(1e18, Math.mulDiv(1e18, priceAt(end), priceAt(start))) - 1e18;
         ratio = 1e18 - Math.mulDiv(1e18, Math.min(yieldThreshold, policyPeriodYield), yieldThreshold);
-        settled = end == expirationDate();
-        return (ratio, settled, true);
+        isSettled = end == expirationDate();
+        return (ratio, isSettled, true);
     }
 }
 ```

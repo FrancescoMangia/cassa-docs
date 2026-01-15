@@ -38,12 +38,12 @@ abstract contract Policy is ICassaPolicy {
 
     function meanOverutilization(uint256 start, uint256 end) external view returns (uint256);
 
-    function settlementRatio() external view returns (uint256 ratio, bool settled, bool ok) {
+    function settlementRatio() external view returns (uint256 ratio, bool isSettled, bool ok) {
         uint256 start = effectiveDate();
         uint256 end = Math.min(block.timestamp, expirationDate());
         ratio = Math.mulDiv(1e18, meanOverutilization(start, end), 1e18 - utilizationTarget);
-        settled = end == expirationDate();
-        return (ratio, settled, true);
+        isSettled = end == expirationDate();
+        return (ratio, isSettled, true);
     }
 }
 ```
