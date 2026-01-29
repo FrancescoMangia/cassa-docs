@@ -7,6 +7,30 @@ import {ICassaPolicy} from "./ICassaPolicy.sol";
 /// @title Cassa ITUT Interface
 /// @notice Cassa IT/UT vault interface.
 interface ICassaITUT {
+    /// @notice Thrown when a deposit would exceed the maximum allowed for `receiver`.
+    /// @param receiver The address that would receive the deposit
+    /// @param assets The amount of assets attempted to be deposited
+    /// @param max The maximum allowable deposit amount for `receiver`
+    error CassaITUT_ExceededMaxDeposit(address receiver, uint256 assets, uint256 max);
+
+    /// @notice Thrown when a redeem would exceed the maximum redeemable tokens for `owner`.
+    /// @param owner The address attempting to redeem tokens
+    /// @param tokens The number of tokens the owner attempted to redeem
+    /// @param max The maximum redeemable token amount for `owner`
+    error CassaITUT_ExceededMaxRedeem(address owner, uint256 tokens, uint256 max);
+
+    /// @notice Thrown when redeeming IT tokens would exceed the maximum redeemable IT tokens for `owner`.
+    /// @param owner The address attempting to redeem IT tokens
+    /// @param tokens The amount of IT tokens attempted to redeem
+    /// @param max The maximum redeemable IT token amount for `owner`
+    error CassaITUT_ExceededMaxRedeem_IT(address owner, uint256 tokens, uint256 max);
+
+    /// @notice Thrown when redeeming UT tokens would exceed the maximum redeemable UT tokens for `owner`.
+    /// @param owner The address attempting to redeem UT tokens
+    /// @param tokens The amount of UT tokens attempted to redeem
+    /// @param max The maximum redeemable UT token amount for `owner`
+    error CassaITUT_ExceededMaxRedeem_UT(address owner, uint256 tokens, uint256 max);
+
     /// @notice Returns the IT (Insured Token) contract
     /// @return _it The ICassaERC20 contract for the IT token
     function IT() external view returns (ICassaERC20 _it);
