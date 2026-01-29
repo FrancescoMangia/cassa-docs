@@ -7,6 +7,44 @@ import {ICassaPolicy} from "./ICassaPolicy.sol";
 /// @title Cassa ITUT Interface
 /// @notice Cassa IT/UT vault interface.
 interface ICassaITUT {
+    /// @notice Thrown when a requirement for the policy to not be effective is not met.
+    /// @param timestamp The current block.timestamp
+    /// @param effective The policy effective timestamp
+    error CassaITUT_PolicyAlreadyEffective(uint256 timestamp, uint256 effective);
+
+    /// @notice Thrown when a requirement for the policy to be effective is not met.
+    /// @param timestamp The current block.timestamp
+    /// @param effective The policy effective timestamp
+    error CassaITUT_PolicyNotEffective(uint256 timestamp, uint256 effective);
+
+    /// @notice Thrown when a requirement for the policy to not be expired is not met.
+    /// @param timestamp The current block.timestamp
+    /// @param expiration The policy expiration timestamp
+    error CassaITUT_PolicyExpired(uint256 timestamp, uint256 expiration);
+
+    /// @notice Thrown when a requirement for the policy to be expired is not met.
+    /// @param timestamp The current block.timestamp
+    /// @param expiration The policy expiration timestamp
+    error CassaITUT_PolicyNotExpired(uint256 timestamp, uint256 expiration);
+
+    /// @notice Thrown when a requirement for the policy to be inside the policy period is not met.
+    /// @param timestamp The current block.timestamp
+    /// @param effective The policy effective timestamp
+    /// @param expiration The policy expiration timestamp
+    error CassaITUT_OutsidePolicyPeriod(uint256 timestamp, uint256 effective, uint256 expiration);
+
+    /// @notice Thrown when a requirement for the policy to be unsettled is not met.
+    error CassaITUT_AlreadySettled();
+
+    /// @notice Thrown when a requirement for the policy to be settled is not met.
+    error CassaITUT_NotSettled();
+
+    /// @notice Thrown when the caller is not authorized to perform the call.
+    error CassaITUT_Unauthorized();
+
+    /// @notice Thrown when `policy.settlementRatio()` returns an unsuccessful status.
+    error CassaITUT_UnsuccessfulSettlementRatioCall();
+
     /// @notice Thrown when a deposit would exceed the maximum allowed for `receiver`.
     /// @param receiver The address that would receive the deposit
     /// @param assets The amount of assets attempted to be deposited
