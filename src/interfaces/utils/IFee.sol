@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-interface IFeeRate {
+interface IFee {
     /// @notice Returns the fee rate
     /// @return _feeRate The fee rate by 1e18 (1e18 = 100%)
     function feeRate() external view returns (uint256 _feeRate);
