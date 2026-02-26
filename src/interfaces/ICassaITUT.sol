@@ -167,7 +167,7 @@ interface ICassaITUT {
     /// @param vault The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
     /// @param receiver The address to check deposit limits for
     /// @return max The maximum deposit amount in IT/UT pairs
-    function maxDepositITUT(address vault, address receiver) external view returns (uint256 max);
+    // function maxDepositITUT(address vault, address receiver) external view returns (uint256 max);
 
     /// @notice Returns the maximum amount of tokens that can be redeemed by an owner
     /// @param owner The address of the token owner
@@ -184,6 +184,16 @@ interface ICassaITUT {
     /// @return max The maximum redeemable UT token amount
     function maxRedeemUT(address owner) external view returns (uint256 max);
 
+    /// @notice Returns the amount of assets equivalent to `tokens`
+    /// @param tokens Amount of tokens
+    /// @return assets Amount of assets
+    function convertToAssets(uint256 tokens) external view returns (uint256 assets);
+
+    /// @notice Returns the amount of tokens equivalent to `assets`
+    /// @param assets Amount of assets
+    /// @return tokens Amount of tokens
+    function convertToTokens(uint256 assets) external view returns (uint256 tokens);
+
     /// @notice Previews the amount of IT and UT tokens that would be minted for a given asset deposit
     /// @param assets The amount of assets to simulate depositing
     /// @return tokens The total amount of token pairs that would be minted
@@ -193,7 +203,7 @@ interface ICassaITUT {
     /// @param vault The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
     /// @param amount The amount of IT/UT pairs to simulate depositing
     /// @return tokens The total amount of token pairs that would be minted
-    function previewDepositITUT(address vault, uint256 amount) external view returns (uint256 tokens);
+    // function previewDepositITUT(address vault, uint256 amount) external view returns (uint256 tokens);
 
     /// @notice Previews the amount of assets that would be returned for redeeming a given amount of tokens
     /// @param tokens The amount of tokens to simulate redeeming
@@ -216,13 +226,25 @@ interface ICassaITUT {
     /// @return tokens The total amount of token pairs minted
     function deposit(uint256 assets, address receiver) external returns (uint256 tokens);
 
+    /// @notice Mint IT and UT on credit and settle the deposit requirement after an external call
+    /// @param assets The amount of assets to deposit on credit
+    /// @param receiver The address that will receive surplus tokens
+    /// @param callbackTarget The address to invoke the callback on
+    /// @param callbackData The calldata for the callback
+    /// @return assetsIn The net assets pulled from the caller (negative if surplus)
+    /// @return itOut The amount of IT tokens sent to the receiver
+    /// @return utOut The amount of UT tokens sent to the receiver
+    function depositOnCredit(uint256 assets, address receiver, address callbackTarget, bytes calldata callbackData)
+        external
+        returns (int256 assetsIn, uint256 itOut, uint256 utOut);
+
     /// @notice Deposits IT/UT pairs from a whitelisted `ICassaITUT` contract and mints new IT and UT tokens
     /// @dev The deposited IT/UT pairs must be backed by the same underlying asset
     /// @param vault The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
     /// @param amount The amount of IT/UT pairs to deposit
     /// @param receiver The address that will receive the minted tokens
     /// @return tokens The total amount of token pairs minted
-    function depositITUT(address vault, uint256 amount, address receiver) external returns (uint256 tokens);
+    // function depositITUT(address vault, uint256 amount, address receiver) external returns (uint256 tokens);
 
     /// @notice Redeems tokens and returns assets to a receiver
     /// @param tokens The amount of tokens to redeem
@@ -230,6 +252,23 @@ interface ICassaITUT {
     /// @param owner The address of the token owner
     /// @return assets The amount of assets returned
     function redeem(uint256 tokens, address receiver, address owner) external returns (uint256 assets);
+
+    /// @notice Withdraw assets on credit and settle the redemption requirement after an external call
+    /// @param tokens The amount of tokens to redeem
+    /// @param receiver The address that will receive the redeemed assets
+    /// @param owner The address of the token owner
+    /// @param callbackTarget The address to invoke the callback on
+    /// @param callbackData The calldata for the callback
+    /// @return assetsOut The amount of assets sent to the receiver
+    /// @return itIn The net IT tokens burned from the owner (negative if surplus)
+    /// @return utIn The net UT tokens burned from the owner (negative if surplus)
+    function redeemOnCredit(
+        uint256 tokens,
+        address receiver,
+        address owner,
+        address callbackTarget,
+        bytes calldata callbackData
+    ) external returns (uint256 assetsOut, int256 itIn, int256 utIn);
 
     /// @notice Redeems IT tokens and returns assets to a receiver
     /// @param tokens The amount of IT tokens to redeem
