@@ -69,6 +69,75 @@ interface ICassaITUT {
     /// @param max The maximum redeemable UT token amount for `owner`
     error CassaITUT_ExceededMaxRedeem_UT(address owner, uint256 tokens, uint256 max);
 
+    /// @notice Thrown when a flash loan of assets would exceed the maximum allowed.
+    /// @param caller The address requesting the flash loan
+    /// @param assets The amount of assets requested
+    /// @param max The maximum allowable flash loan amount
+    error CassaITUT_ExceededMaxFlashLoan_Asset(address caller, uint256 assets, uint256 max);
+
+    /// @notice Thrown when a flash loan of IT/UT tokens would exceed the maximum allowed.
+    /// @param caller The address requesting the flash loan
+    /// @param tokens The amount of tokens requested
+    /// @param max The maximum allowable flash loan amount
+    error CassaITUT_ExceededMaxFlashLoan_ITUT(address caller, uint256 tokens, uint256 max);
+
+    /// @notice Thrown when a callback invocation fails.
+    error CassaITUT_UnsuccessfulCallback();
+
+    /// @notice Emitted when assets are deposited and IT/UT tokens are minted.
+    /// @param sender The address that initiated the deposit
+    /// @param receiver The address that received the minted tokens
+    /// @param assets The amount of assets deposited
+    /// @param tokens The amount of IT/UT token pairs minted
+    event Deposit(address indexed sender, address indexed receiver, uint256 assets, uint256 tokens);
+
+    /// @notice Emitted when a deposit is performed via a credit operation.
+    /// @param sender The address that initiated the deposit
+    /// @param target The callback target address
+    /// @param asset The amount of assets involved in the credit
+    /// @param assetsIn The net assets transferred in (negative if surplus returned)
+    /// @param itOut The amount of IT tokens sent to the receiver
+    /// @param utOut The amount of UT tokens sent to the receiver
+    event DepositOnCredit(
+        address indexed sender, address indexed target, uint256 asset, int256 assetsIn, uint256 itOut, uint256 utOut
+    );
+
+    /// @notice Emitted when tokens are redeemed for assets.
+    /// @param sender The address that initiated the redemption
+    /// @param receiver The address that received the assets
+    /// @param owner The address of the token owner
+    /// @param assets The amount of assets returned
+    /// @param it The amount of IT tokens burned
+    /// @param ut The amount of UT tokens burned
+    event Redeem(
+        address indexed sender, address indexed receiver, address indexed owner, uint256 assets, uint256 it, uint256 ut
+    );
+
+    /// @notice Emitted when a redemption is performed via a credit operation.
+    /// @param sender The address that initiated the redemption
+    /// @param target The callback target address
+    /// @param tokens The amount of tokens involved in the credit
+    /// @param assetsOut The amount of assets sent to the receiver
+    /// @param itIn The net IT tokens burned (negative if surplus returned)
+    /// @param utIn The net UT tokens burned (negative if surplus returned)
+    event RedeemOnCredit(
+        address indexed sender, address indexed target, uint256 tokens, uint256 assetsOut, int256 itIn, int256 utIn
+    );
+
+    /// @notice Emitted when the policy is settled.
+    /// @param settlementRatio The settlement ratio value scaled by 1e18
+    event Settled(uint256 settlementRatio);
+
+    /// @notice Emitted when the fee rate is updated.
+    /// @param oldRate The previous fee rate
+    /// @param newRate The new fee rate
+    event UpdatedFeeRate(uint256 oldRate, uint256 newRate);
+
+    /// @notice Emitted when the fee receiver is updated.
+    /// @param oldReceiver The previous fee receiver address
+    /// @param newReceiver The new fee receiver address
+    event UpdatedFeeReceiver(address oldReceiver, address newReceiver);
+
     /// @notice Returns the IT (Insured Token) contract
     /// @return _it The ICassaERC20 contract for the IT token
     function IT() external view returns (ICassaERC20 _it);
