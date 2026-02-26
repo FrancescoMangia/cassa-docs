@@ -17,12 +17,10 @@ Manages token pairs:
 - **Deposits/Withdrawals**: User capital flows
 - **Redemptions**: Policy settlements and early exits
 
-### 3. AMM (`ICassaAMM`)
+### 3. Router (`ICassaRouter`)
 
-Provides continuous liquidity:
-- **Swaps**: Exchange between ASSET, UNDERLYING, and INSURED tokens
-- **Liquidity Provision**: Add/remove liquidity
-- **Fees**: Swap fees in parts per million (ppm)
+Routes swaps between asset, IT, and UT tokens via a Balancer pool and CassaITUT vault:
+- **Swaps**: Exchange between asset, IT, and UT tokens
 
 ### 4. Token Contracts (`ICassaERC20`)
 
@@ -39,9 +37,3 @@ At policy expiration, the settlement ratio determines payouts:
 - `ratio = 1e18` (100%): Full payout to IT holders
 - `ratio = 0`: Full value to UT holders (no claim)
 - `0 < ratio < 1e18`: Proportional split
-
-### AMM Token Types
-
-- **ASSET**: The underlying collateral token
-- **UNDERLYING**: Token representing baseline value
-- **INSURED**: Token with insurance coverage
