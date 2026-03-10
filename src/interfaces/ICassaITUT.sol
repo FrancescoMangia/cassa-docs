@@ -138,6 +138,13 @@ interface ICassaITUT {
     /// @param newReceiver The new fee receiver address
     event UpdatedFeeReceiver(address oldReceiver, address newReceiver);
 
+    /// @notice Initialize the vault
+    /// @param __name The vault's name
+    /// @param __asset The vault's underlying asset
+    /// @param __policy The ICassaPolicy policy address
+    /// @param __erc20Factory The CassaERC20 factory address
+    function initialize(string memory __name, address __asset, address __policy, address __erc20Factory) external;
+
     /// @notice Returns the IT (Insured Token) contract
     /// @return _it The ICassaERC20 contract for the IT token
     function IT() external view returns (ICassaERC20 _it);
@@ -162,6 +169,18 @@ interface ICassaITUT {
     /// @param receiver The address to check deposit limits for
     /// @return max The maximum deposit amount
     function maxDeposit(address receiver) external view returns (uint256 max);
+
+    /// @notice Returns the maximum amount of assets that can be flash loaned for a credit operation
+    /// @param caller The address requesting the flash loan
+    /// @param target The callback target address
+    /// @return max The maximum flash loan amount in assets
+    function maxFlashLoan_Asset(address caller, address target) external view returns (uint256 max);
+
+    /// @notice Returns the maximum amount of IT/UT tokens that can be flash loaned for a credit operation
+    /// @param caller The address requesting the flash loan
+    /// @param target The callback target address
+    /// @return max The maximum flash loan amount in IT/UT tokens
+    function maxFlashLoan_ITUT(address caller, address target) external view returns (uint256 max);
 
     /// @notice Returns the maximum amount of IT/UT pairs that can be deposited from a whitelisted `ICassaITUT` contract
     /// @param vault The address of the whitelisted `ICassaITUT` contract whose IT/UT tokens will be deposited
